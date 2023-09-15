@@ -41,7 +41,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.android.cameraxextensions.R
+import com.example.android.cameraxextensions.SightManager
+import com.example.android.cameraxextensions.SightManagerImpl
 import com.example.android.cameraxextensions.adapter.CameraExtensionsSelectorAdapter
+import com.example.android.cameraxextensions.logD
 import com.example.android.cameraxextensions.model.CameraUiAction
 import com.example.android.cameraxextensions.viewstate.CameraPreviewScreenViewState
 import com.example.android.cameraxextensions.viewstate.CaptureScreenViewState
@@ -56,7 +59,7 @@ import kotlinx.coroutines.launch
  * operations clients can perform on the screen.
  */
 @SuppressLint("ClickableViewAccessibility")
-class CameraExtensionsScreen(private val root: View) {
+class CameraExtensionsScreen(private val root: View) : SightManager by SightManagerImpl(root) {
 
     private companion object {
         // animation constants for focus point
@@ -152,9 +155,13 @@ class CameraExtensionsScreen(private val root: View) {
         }
 
         val gestureDetector = GestureDetectorCompat(context, object : SimpleOnGestureListener() {
-            override fun onDown(e: MotionEvent): Boolean = true
+            override fun onDown(e: MotionEvent): Boolean {
+                "onDown".logD()
+                return true
+            }
 
             override fun onSingleTapUp(e: MotionEvent): Boolean {
+                "onSingleTapUp".logD()
                 val meteringPointFactory = previewView.meteringPointFactory
                 val focusPoint = meteringPointFactory.createPoint(e.x, e.y)
                 root.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
@@ -165,8 +172,58 @@ class CameraExtensionsScreen(private val root: View) {
             }
 
             override fun onDoubleTap(e: MotionEvent): Boolean {
+                "onDoubleTap".logD()
                 switchLens(root, switchLensButton)
                 return true
+            }
+
+            override fun onContextClick(e: MotionEvent): Boolean {
+                "onContextClick".logD()
+                return super.onContextClick(e)
+            }
+
+            override fun onDoubleTapEvent(e: MotionEvent): Boolean {
+                "onDoubleTapEvent".logD()
+                return super.onDoubleTapEvent(e)
+            }
+
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                "onFling".logD()
+                return super.onFling(e1, e2, velocityX, velocityY)
+            }
+
+            override fun onLongPress(e: MotionEvent) {
+                "onLongPress".logD()
+                super.onLongPress(e)
+            }
+
+            override fun onScroll(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                distanceX: Float,
+                distanceY: Float
+            ): Boolean {
+//                "onScroll e1:${e1}".logD()
+//                "onScroll e2:${e2}".logD()
+//                "onScroll distanceX:${distanceX}".logD()
+//                "onScroll distanceY:${distanceY}".logD()
+                scrollSight(distanceX, distanceY)
+                return super.onScroll(e1, e2, distanceX, distanceY)
+            }
+
+            override fun onShowPress(e: MotionEvent) {
+                "onShowPress".logD()
+                super.onShowPress(e)
+            }
+
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                "onSingleTapConfirmed".logD()
+                return super.onSingleTapConfirmed(e)
             }
         })
 

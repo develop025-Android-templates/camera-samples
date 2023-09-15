@@ -133,10 +133,13 @@
         android:id="@+id/sight"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:importantForAccessibility="no"
         android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/design_default_color_error" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
