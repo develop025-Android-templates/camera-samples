@@ -40,11 +40,11 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.android.cameraxextensions"
+        applicationId "k.studio.aiming"
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "0.0.001"
+        versionName "0.0.002"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
